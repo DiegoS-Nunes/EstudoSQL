@@ -1,5 +1,7 @@
---1.	Listar o código e o nome dos vendedores que efetuaram vendas para o cliente com código 10.
--- Junção
+--1. List the code and name of the sellers who made sales to the customer with code 10.
+--1.	Listar o cÃ³digo e o nome dos vendedores que efetuaram vendas para o cliente com cÃ³digo 10.
+
+-- JOIN
 SELECT p.cod_vendedor, v.nome_vendedor
 FROM pedido p
 INNER JOIN vendedor v ON v.cod_vendedor = p.cod_vendedor
@@ -23,16 +25,20 @@ WHERE EXISTS (
     WHERE p.cod_cliente = 10 AND v.cod_vendedor = p.cod_vendedor
 );
 
---2.	Listar o número do pedido, data de entrega, a quantidade e a descrição do produto com código 2.
--- Junção
+--2. List the order number, delivery date, quantity and description of the product with code 2.
+--2.	Listar o nÃºmero do pedido, data de entrega, a quantidade e a descriÃ§Ã£o do produto com cÃ³digo 2.
+
+-- JOIN
 SELECT p.Num_pedido, p.data_entrega, ip.quantidade, pr.descricao
 FROM pedido p
 INNER JOIN item_pedido ip ON ip.num_pedido = p.Num_pedido
 INNER JOIN produto pr ON pr.cod_produto = ip.cod_produto
 WHERE ip.cod_produto = 2;
 
---3.	Quais os vendedores (código e nome) fizeram pedidos para o cliente 'Marcelo Cruz'.
--- Junção
+--3. Which sellers (code and name) made orders for the customer 'Marcelo Cruz'.
+--3.	Quais os vendedores (cÃ³digo e nome) fizeram pedidos para o cliente 'Marcelo Cruz'.
+
+-- JOIN
 SELECT p.cod_vendedor, v.nome_vendedor
 FROM pedido p
 INNER JOIN vendedor v ON v.cod_vendedor = p.cod_vendedor
@@ -66,8 +72,10 @@ WHERE EXISTS (
     )
 );
 
---4.	Quais produtos (código, descrição, unidade e quantidade) cuja quantidade seja maior que 50 e menor que 100.
--- Junção
+--4. Which products (code, description, unit and quantity) have a quantity greater than 50 and less than 100.
+--4.	Quais produtos (cÃ³digo, descriÃ§Ã£o, unidade e quantidade) cuja quantidade seja maior que 50 e menor que 100.
+
+-- JOIN
 SELECT pr.cod_produto, pr.descricao, pr.Unidade, SUM(ip.quantidade) AS totalQuantidade
 FROM produto pr
 INNER JOIN item_pedido ip ON ip.cod_produto = pr.cod_produto
@@ -75,20 +83,24 @@ GROUP BY pr.cod_produto, pr.descricao, pr.Unidade
 HAVING SUM(ip.quantidade) BETWEEN 51 AND 99
 ORDER BY totalQuantidade ASC;
 
---5.	Listar o número do pedido, o código do produto, a descrição do produto, o código do vendedor, o nome do vendedor, o nome do cliente, 
---para todos os clientes que moram em São Paulo.
--- Junção
+--5. List the order number, product code, product description, seller code, seller name, customer name, for all customers who live in SÃ£o Paulo.
+--5.	Listar o nÃºmero do pedido, o cÃ³digo do produto, a descriÃ§Ã£o do produto, o cÃ³digo do vendedor, o nome do vendedor, o nome do cliente, 
+--para todos os clientes que moram em SÃ£o Paulo.
+
+-- JOIN
 SELECT p.Num_pedido, ip.cod_produto, pr.descricao, p.cod_vendedor, v.nome_vendedor, c.Nome_cliente
 FROM pedido p
 INNER JOIN cliente c ON c.Cod_cliente = p.cod_cliente
 INNER JOIN vendedor v ON v.cod_vendedor = p.cod_vendedor
 INNER JOIN item_pedido ip ON ip.num_pedido = p.Num_pedido
 INNER JOIN produto pr ON pr.cod_produto = ip.cod_produto
-WHERE c.Cidade = 'São Paulo';
+WHERE c.Cidade = 'SÃ£o Paulo';
 
---6.	Listar todos os dados dos clientes cujo nome comece por “Maria” e que tenha o código do cliente entre 1 e 4, que morem em Sorocaba, 
+--6. List all data of customers whose name starts with Maria and whose customer code is between 1 and 4, who live in Sorocaba, who made purchases in September of this year, in alphabetical order of customer name.
+--6.	Listar todos os dados dos clientes cujo nome comece por Maria e que tenha o cÃ³digo do cliente entre 1 e 4, que morem em Sorocaba, 
 --que tenham realizado compra em setembro deste ano, por ordem alfabetica de nome do cliente.
--- Junção
+
+-- JOIN
 SELECT c.*
 FROM cliente c
 INNER JOIN pedido p ON p.Cod_cliente = c.Cod_cliente
@@ -128,9 +140,10 @@ WHERE EXISTS (
 )
 ORDER BY c.Nome_cliente ASC;
 
---7.	Listar o código e o nome dos clientes que tem data de entrega para 03/04/2011.
+--7. List the code and name of customers who have a delivery date for 03/04/2011.
+--7.	Listar o cÃ³digo e o nome dos clientes que tem data de entrega para 03/04/2011.
 
--- Junção
+-- JOIN
 SELECT c.Cod_cliente, c.Nome_cliente
 FROM cliente c
 INNER JOIN pedido p ON p.cod_cliente = c.Cod_cliente
@@ -154,9 +167,10 @@ WHERE EXISTS (
     WHERE p.data_entrega = '2011-04-03' AND p.cod_cliente = c.Cod_cliente
 );
 
---8.	Listar o código do produto, a descrição, a quantidade pedida e o data de entrega para o pedido número 12.
+--8. List the product code, description, quantity ordered and delivery date for order number 12.
+--8.	Listar o cÃ³digo do produto, a descriÃ§Ã£o, a quantidade pedida e o data de entrega para o pedido nÃºmero 12.
 
--- Junção
+-- JOIN
 SELECT p.Num_pedido, pr.cod_produto, pr.descricao, SUM(ip.quantidade) AS totalQuantidade, p.data_entrega
 FROM produto pr
 INNER JOIN item_pedido ip ON ip.cod_produto = pr.cod_produto
@@ -165,10 +179,11 @@ WHERE ip.num_pedido = 12
 GROUP BY p.Num_pedido, pr.cod_produto, pr.descricao, p.data_entrega
 ORDER BY totalQuantidade ASC;
 
---9.	Listar o nome dos clientes do estado de São Paulo (UF ='SP')  que têm data de entrega até o dia 03-12-2011 e fizeram pedido com 
---o vendedor com código 20.
+--9. List the names of customers from the state of SÃ£o Paulo (UF ='SP') who have a delivery date up to 03-12-2011 and placed an order with the seller with code 20.
+--9.	Listar o nome dos clientes do estado de SÃ£o Paulo (UF ='SP')  que tÃªm data de entrega atÃ© o dia 03-12-2011 e fizeram pedido com 
+--o vendedor com cÃ³digo 20.
 
--- Junção
+-- JOIN
 SELECT c.Nome_cliente, c.Cidade, p.cod_vendedor
 FROM cliente c
 INNER JOIN pedido p ON p.cod_cliente = c.Cod_cliente
@@ -192,14 +207,15 @@ WHERE EXISTS (
     WHERE p.cod_cliente = c.Cod_cliente AND p.cod_vendedor = 20 AND c.UF = 'SP' AND p.data_entrega <= '2011-12-03'
 );
 
---10.	Quais os clientes (nome e endereço) da cidade de Itu ou Sorocaba tiveram seus pedidos tirados com o vendedor 'Alôncio Pimentão'.
+--10. List the names and addresses of customers from the cities of Itu or Sorocaba who had their orders taken by the seller 'AlÃªncio PimentÃ£o'.
+--10.	Quais os clientes (nome e endereÃ§o) da cidade de Itu ou Sorocaba tiveram seus pedidos tirados com o vendedor 'AlÃªncio PimentÃ£o'.
 
--- Junção
+-- JOIN
 SELECT c.Nome_cliente, c.Endereco
 FROM cliente c
 INNER JOIN pedido p ON p.cod_cliente = c.Cod_cliente
 INNER JOIN vendedor v ON v.cod_vendedor = p.cod_vendedor
-WHERE c.Cidade IN ('Itu', 'Sorocaba') AND v.nome_vendedor = 'Alôncio Pimentão'
+WHERE c.Cidade IN ('Itu', 'Sorocaba') AND v.nome_vendedor = 'AlÃªncio PimentÃ£o'
 ORDER BY c.Nome_cliente;
 
 -- IN
@@ -211,7 +227,7 @@ WHERE c.Cod_cliente IN (
     WHERE p.cod_vendedor IN (
         SELECT v.cod_vendedor
         FROM vendedor v
-        WHERE v.nome_vendedor = 'Alôncio Pimentão'
+        WHERE v.nome_vendedor = 'AlÃªncio PimentÃ£o'
     ) AND c.Cidade IN ('Itu', 'Sorocaba')
 )
 ORDER BY c.Nome_cliente;
@@ -225,14 +241,15 @@ WHERE EXISTS (
     WHERE p.cod_cliente = c.Cod_cliente AND EXISTS (
         SELECT 1
         FROM vendedor v
-        WHERE v.cod_vendedor = p.cod_vendedor AND v.nome_vendedor = 'Alôncio Pimentão'
+        WHERE v.cod_vendedor = p.cod_vendedor AND v.nome_vendedor = 'AlÃªncio PimentÃ£o'
     ) AND c.Cidade IN ('Itu', 'Sorocaba')
 )
 ORDER BY c.Nome_cliente;
 
---11. Quais produtos (código, descrição, unidade) cuja quantidade vendida seja maior que 50 e tenha sido vendida pelo vendedor 'Fulano Antonio'.
+--11. Which products (code, description, unit) have a quantity sold greater than 50 and were sold by the seller 'Fulano Antonio'.
+--11. Quais produtos (cÃ³digo, descriÃ§Ã£o, unidade) cuja quantidade vendida seja maior que 50 e tenha sido vendida pelo vendedor 'Fulano Antonio'.
 
--- Junção
+-- JOIN
 SELECT pr.cod_produto, pr.descricao, pr.Unidade, SUM(ip.quantidade) AS totalQuantidade
 FROM produto pr
 INNER JOIN item_pedido ip ON ip.cod_produto = pr.cod_produto
@@ -286,9 +303,10 @@ WHERE EXISTS (
 )
 ORDER BY pr.descricao ASC;
 
---12. Listar o número do pedido, o código do produto, a descrição do produto, o código do vendedor, o nome do vendedor, o nome do cliente, para todos os clientes que moram em Itu.
+--12. List the order number, product code, product description, seller code, seller name, customer name, for all customers who live in Itu.
+--12. Listar o nÃºmero do pedido, o cÃ³digo do produto, a descriÃ§Ã£o do produto, o cÃ³digo do vendedor, o nome do vendedor, o nome do cliente, para todos os clientes que moram em Itu.
 
--- Junção
+-- JOIN
 SELECT p.Num_pedido, ip.cod_produto, pr.descricao, p.cod_vendedor, v.nome_vendedor, c.Nome_cliente
 FROM pedido p
 INNER JOIN item_pedido ip ON ip.num_pedido = p.Num_pedido
@@ -297,13 +315,14 @@ INNER JOIN vendedor v ON v.cod_vendedor = p.cod_vendedor
 INNER JOIN cliente c ON c.Cod_cliente = p.cod_cliente
 WHERE c.Cidade = 'Itu';
 
---13. Listar todos os clientes (nome do cliente e cidade) que moram na mesma cidade que 'João da Silva'.
+--13. List all customers (customer name and city) who live in the same city as 'JoÃ£o da Silva'.
+--13. Listar todos os clientes (nome do cliente e cidade) que moram na mesma cidade que 'JoÃ£o da Silva'.
 
--- Junção
+-- JOIN
 SELECT c.Nome_cliente, c.Cidade
 FROM cliente c
 INNER JOIN cliente c2 ON c2.Cidade = c.Cidade
-WHERE c2.Nome_cliente = 'João da Silva';
+WHERE c2.Nome_cliente = 'JoÃ£o da Silva';
 
 -- IN
 SELECT c.Nome_cliente, c.Cidade
@@ -311,7 +330,7 @@ FROM cliente c
 WHERE c.Cidade IN (
     SELECT c2.Cidade
     FROM cliente c2
-    WHERE c2.Nome_cliente = 'João da Silva'
+    WHERE c2.Nome_cliente = 'JoÃ£o da Silva'
 );
 
 -- EXISTS
@@ -320,13 +339,14 @@ FROM cliente c
 WHERE EXISTS (
     SELECT 1
     FROM cliente c2
-    WHERE c2.Nome_cliente = 'João da Silva'
+    WHERE c2.Nome_cliente = 'JoÃ£o da Silva'
     AND c2.Cidade = c.Cidade
 );
 
---14. Alterar os preço unitário dos produtos: reduzir em 8% o valor dos produtos que não tenham sido vendido no segundo semestre deste ano.
+--14. Change the unit price of products: reduce by 8% the value of products that have not been sold in the second half of this year.
+--14. Alterar os preÃ§o unitÃ¡rio dos produtos: reduzir em 8% o valor dos produtos que nÃ£o tenham sido vendido no segundo semestre deste ano.
 
--- Consulta produtos que não atingiram a meta
+-- Consulta produtos que nÃ£o atingiram a meta
 SELECT DISTINCT pr.cod_produto, pr.descricao, (pr.Valor_unitario - (pr.Valor_unitario * 0.08)) AS valorReduzido, pr.Valor_unitario
 FROM produto pr
 WHERE pr.cod_produto NOT IN (
@@ -348,7 +368,8 @@ WHERE cod_produto NOT IN (
     WHERE MONTH(p.data_compra) >= 7 AND YEAR(p.data_compra) = YEAR(GETDATE())
 );
 
---15. Aumentar em 5% o salario base dos vendedores com somatória de valores de vendas superior a 10.000, no mês de outubro deste ano.
+--15. Increase by 5% the base salary of sellers with total sales values greater than 10,000 in the month of October this year.
+--15. Aumentar em 5% o salario base dos vendedores com somatÃ©ria de valores de vendas superior a 10.000, no mÃªs de outubro deste ano.
 
 -- Consulta vendedores que atingiram a meta
 SELECT v.nome_vendedor, SUM(ip.quantidade * pr.Valor_unitario) AS vendasTotal
@@ -374,7 +395,8 @@ WHERE cod_vendedor IN (
     HAVING SUM(ip.quantidade * pr.Valor_unitario) > 10000
 );
 
---16. Apagar da tabela vendedores aqueles vendedores que não realizaram nenhuma venda.
+--16. Delete from the sellers table those sellers who have not made any sales.
+--16. Apagar da tabela vendedores aqueles vendedores que nÃ£o realizaram nenhuma venda.
 
 DELETE FROM vendedor
 WHERE cod_vendedor NOT IN (
@@ -382,7 +404,8 @@ WHERE cod_vendedor NOT IN (
     FROM pedido p
 );
 
---17. Apagar da tabela vendedores aqueles vendedores que não realizaram nenhuma venda NO MÊS DE ABRIL DE 2018.
+--17. Delete from the sellers table those sellers who have not made any sales in April 2018.
+--17. Apagar da tabela vendedores aqueles vendedores que nÃ£o realizaram nenhuma venda NO mÃªs DE ABRIL DE 2018.
 
 DELETE FROM vendedor
 WHERE cod_vendedor NOT IN (
@@ -391,9 +414,10 @@ WHERE cod_vendedor NOT IN (
     WHERE MONTH(p.data_compra) = 4 AND YEAR(p.data_compra) = 2018
 );
 
---18. Listar o nome dos vendedores com média de valor de vendas superior à média de todos os vendedores.
+--18. List the names of sellers with an average sales value higher than the average of all sellers.
+--18. Listar o nome dos vendedores com mÃ©dia de valor de vendas superior Ã  mÃ©dia de todos os vendedores.
 
--- Junção
+-- JOIN
 SELECT v.nome_vendedor, AVG(ip.quantidade * pr.Valor_unitario) AS mediaVendas
 FROM vendedor v
 INNER JOIN pedido p ON p.cod_vendedor = v.cod_vendedor
@@ -412,7 +436,8 @@ HAVING AVG(ip.quantidade * pr.Valor_unitario) > (
     ) AS subquery
 );
 
---19. Listar nome dos clientes que realizaram compra com o vendedor 'Ciclano Alberto', no mês de maio deste ano.
+--19. List the names of customers who made purchases with the seller 'Ciclano Alberto' in the month of May this year.
+--19. Listar nome dos clientes que realizaram compra com o vendedor 'Ciclano Alberto', no mÃªs de maio deste ano.
 
 SELECT c.Nome_cliente
 FROM cliente c
@@ -422,7 +447,8 @@ WHERE v.nome_vendedor = 'Ciclano Alberto'
 AND MONTH(p.data_compra) = 5
 AND YEAR(p.data_compra) = YEAR(GETDATE());
 
---20. Listar nome dos clientes que só realizaram compra com o vendedor 'Ciclano Alberto', no mês de maio deste ano.
+--20. List the names of customers who only made purchases with the seller 'Ciclano Alberto' in the month of May this year.
+--20. Listar nome dos clientes que sÃ³ realizaram compra com o vendedor 'Ciclano Alberto', no mÃªs de maio deste ano.
 
 SELECT DISTINCT c.Nome_cliente
 FROM cliente c
@@ -441,7 +467,8 @@ AND NOT EXISTS (
     AND YEAR(p2.data_compra) = YEAR(GETDATE())
 );
 
---21. Listar nome dos vendedores que só realizaram venda para o cliente 'Fulano Eraldo'.
+--21. List the names of sellers who only made sales to the customer 'Fulano Eraldo'.
+--21. Listar nome dos vendedores que sÃ³ realizaram venda para o cliente 'Fulano Eraldo'.
 
 SELECT v.nome_vendedor
 FROM vendedor v
