@@ -13,7 +13,9 @@ Este repositório contém exercícios de estudo em SQL. Os arquivos `.sql` prese
 
 1. Abra os arquivos `.sql` em seu editor de código preferido.
 2. Execute os comandos em um SGBD compatível (ex: MySQL, PostgreSQL, SQL Server).
-3. Siga os comentários nos scripts para entender cada exercício.
+    * Primeiro, crie o banco de dados executando os comando em `Create Tables.sql`
+    * Depois, execute os comandos em `Insert Data.sql` para popular as tabelas.
+3. Siga os comentários nos scripts em `Consultas.sql` para entender cada exercício.
 
 ## Objetivo
 
@@ -44,7 +46,9 @@ This repository contains SQL study exercises. The `.sql` files here cover fundam
 
 1. Open the `.sql` files in your preferred code editor.
 2. Run the commands in a compatible DBMS (e.g., MySQL, PostgreSQL, SQL Server).
-3. Follow the comments in the scripts to understand each exercise.
+    * First, create the database by running the commands in `Create Tables.sql`
+    * Then, run the commands in `Insert Data.sql` to populate the tables.
+3. Follow the comments in `Consultas.sql` script to understand each exercise.
 
 ## Purpose
 
